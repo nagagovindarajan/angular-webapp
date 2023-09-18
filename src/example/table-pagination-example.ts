@@ -2,6 +2,7 @@ import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {environment} from "../environments/environment";
 
 /**
  * @title Table with pagination
@@ -27,7 +28,7 @@ export class TablePaginationExample implements AfterViewInit {
   displayedColumns: string[] = ['time_stamp', '200', '301', '400', '403', '404', '408', '500', '503'];
   dataSource:any = new MatTableDataSource<any>(this.tableData);
   constructor(private http: HttpClient) {
-    this.http.get('https://platform.apps.nagarajan.cloud/latest-summary').subscribe(response => {
+    this.http.get(environment.latest_summary).subscribe(response => {
       this.data = response;
       console.log(this.data);
       this.count_200 = this.data['200']
@@ -36,7 +37,7 @@ export class TablePaginationExample implements AfterViewInit {
       this.count_503 = this.data['503']
     });
 
-    this.http.get('https://platform.apps.nagarajan.cloud/past-hour-summary').subscribe(response => {
+    this.http.get(environment.past_hour_summary).subscribe(response => {
       this.tableData = response as any[];
       this.dataSource = new MatTableDataSource<any>(this.tableData);
     });
